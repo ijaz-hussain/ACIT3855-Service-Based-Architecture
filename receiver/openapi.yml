@@ -1,0 +1,111 @@
+openapi: 3.0.0
+info:
+  description: This API receives efficiency data from electric vehicles.
+  version: "1.0.0"
+  title: Electric Vehicle Efficiency API
+  contact:
+    email: ihussain7@my.bcit.ca
+tags:
+  - name: efficiency
+    description: Operations available to calculate efficiency
+paths:
+  /readings/acceleration:
+    post:
+      tags:
+        - efficiency
+      summary: reports an acceleration reading
+      operationId: app.acceleration_reading
+      description: Adds a new acceleration reading to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccelerationReading'
+        description: Reading item to add
+        
+  /readings/environmental:
+    post:
+      tags:
+        - efficiency
+      summary: reports an environmental reading
+      operationId: app.environmental_reading
+      description: Adds a new environmental reading to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentalReading'
+        description: Reading item to add
+        
+components:
+  schemas:
+    AccelerationReading:
+      required:
+        - vin_id
+        - acceleration_reading
+        - estimated_range
+        - timestamp
+      properties:
+        vin_id:
+          type: string
+          format: uuid
+          example: 5YJSA4H20FFP73029
+        acceleration_reading:
+          $ref: '#/components/schemas/Acceleration'
+        estimated_range:
+          type: integer
+          example: 220
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+      type: object
+         
+    EnvironmentalReading:
+      required:
+        - vin_id
+        - temperature
+        - elevation
+        - gps_location
+        - grade_incline
+      properties:
+        vin_id:
+          type: string
+          format: uuid
+          example: 5YJSA4H20FFP73029
+        temperature:
+          type: integer
+          example: 22
+        elevation:
+          type: integer
+          example: 100
+        gps_location:
+          type: string
+          example: '41.40338, 2.17403'
+        grade_incline:
+          type: integer
+          example: 15
+      type: object
+      
+    Acceleration:
+      required:
+      - speed
+      - watt_hours_per_mile
+      properties:
+        speed:
+          type: integer
+          example: 45
+        watt_hours_per_mile:
+          type: integer
+          example: 171
+      type: object       

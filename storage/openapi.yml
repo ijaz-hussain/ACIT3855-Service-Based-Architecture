@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  description: This API receives efficiency data from electric vehicles.
+  version: "1.0.0"
+  title: Electric Vehicle Efficiency API
+  contact:
+    email: ihussain7@my.bcit.ca
+tags:
+  - name: efficiency
+    description: Operations available to calculate efficiency
+paths:
+  /readings/acceleration:
+    get:
+      tags:
+        - acceleration
+      summary: gets new acceleration readings
+      operationId: app.get_acceleration_readings
+      description: Gets acceleration readings added after a timestamp
+      parameters:
+        - name: timestamp
+          in: query
+          description: Limits the number of items on a page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:12:33.001Z
+      responses:
+        '200':
+          description: Successfully returned a list of acceleration events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccelerationReading'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        
+  /readings/environmental:
+    get:
+      tags:
+        - environmental
+      summary: gets new environmental readings
+      operationId: app.get_environmental_readings
+      description: Gets environmental readings added after a timestamp
+      parameters:
+        - name: timestamp
+          in: query
+          description: Limits the number of items on a page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:12:33.001Z
+      responses:
+        '200':
+          description: Successfully returned a list of environmental events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnvironmentalReading'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        
+components:
+  schemas:
+    AccelerationReading:
+      required:
+        - vin_id
+        - acceleration_reading
+        - estimated_range
+        - timestamp
+        - trace_id
+      properties:
+        vin_id:
+          type: string
+          format: uuid
+          example: 5YJSA4H20FFP73029
+        acceleration_reading:
+          $ref: '#/components/schemas/Acceleration'
+        estimated_range:
+          type: integer
+          example: 220
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        trace_id:
+          type: string
+          example: "8061363130"
+      type: object
+         
+    EnvironmentalReading:
+      required:
+        - vin_id
+        - temperature
+        - elevation
+        - gps_location
+        - grade_incline
+        - trace_id
+      properties:
+        vin_id:
+          type: string
+          format: uuid
+          example: 5YJSA4H20FFP73029
+        temperature:
+          type: integer
+          example: 22
+        elevation:
+          type: integer
+          example: 100
+        gps_location:
+          type: string
+          example: '41.40338, 2.17403'
+        grade_incline:
+          type: integer
+          example: 15
+        trace_id:
+          type: string
+          example: "8061363130"
+      type: object
+      
+    Acceleration:
+      required:
+      - speed
+      - watt_hours_per_mile
+      properties:
+        speed:
+          type: integer
+          example: 45
+        watt_hours_per_mile:
+          type: integer
+          example: 171
+      type: object       

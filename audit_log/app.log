@@ -1,0 +1,15 @@
+2022-02-15 21:19:31,199 - basicLogger - INFO - Retrieving acceleration reading at index 100
+2022-02-15 21:19:43,954 - basicLogger - INFO - Retrieving acceleration reading at index 82
+2022-02-15 21:20:15,432 - basicLogger - INFO - Retrieving environmental reading at index 100
+2022-02-15 21:20:22,129 - basicLogger - INFO - Retrieving environmental reading at index 32
+2022-02-22 14:13:47,627 - basicLogger - INFO - Retrieving acceleration reading at index 100
+2022-02-22 14:13:58,347 - basicLogger - INFO - Retrieving acceleration reading at index 200
+2022-02-22 14:14:14,433 - basicLogger - INFO - Retrieving acceleration reading at index 1000
+2022-02-22 14:14:16,091 - basicLogger - ERROR - Could not find acceleration reading at index 1000
+2022-02-22 14:14:29,657 - basicLogger - INFO - Retrieving acceleration reading at index 500
+2022-02-22 14:14:46,499 - basicLogger - INFO - Retrieving environmental reading at index 600
+2022-02-22 14:14:53,203 - basicLogger - INFO - Retrieving environmental reading at index 700
+2022-02-22 14:14:54,807 - basicLogger - ERROR - Could not find environmental reading at index 700
+2022-02-22 14:15:00,457 - basicLogger - INFO - Retrieving environmental reading at index 600
+2022-02-22 14:15:31,104 - basicLogger - INFO - Retrieving environmental reading at index 700
+2022-02-22 14:15:32,807 - basicLogger - ERROR - Could not find environmental reading at index 700

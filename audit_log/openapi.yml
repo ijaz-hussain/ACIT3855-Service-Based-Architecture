@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  description: This API provides audit info
+  version: "1.0.0"
+  title: Audit API
+  contact:
+    email: ihussain7@my.bcit.ca
+paths:
+  /acceleration:
+    get:
+      summary: gets an acceleration reading from history
+      operationId: app.get_acceleration_reading
+      description: Gets acceleration readings from the event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the acceleration at the index in the event store
+          schema:
+            type: integer
+            example: 100
+      responses:
+        '200':
+          description: Successfully returned an acceleration event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/AccelerationReading'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /environmental:
+    get:
+      summary: gets an environmental reading from history
+      operationId: app.get_environmental_reading
+      description: Gets environmental reading from the event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the environmental at the index in the event store
+          schema:
+            type: integer
+            example: 100
+      responses:
+        '200':
+          description: Successfully returned an environmental event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/EnvironmentalReading'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Not Found
+components:
+  schemas:
+    AccelerationReading:
+      required:
+        - vin_id
+        - acceleration_reading
+        - estimated_range
+        - timestamp
+      properties:
+        vin_id:
+          type: string
+          format: uuid
+          example: 5YJSA4H20FFP73029
+        acceleration_reading:
+          $ref: '#/components/schemas/Acceleration'
+        estimated_range:
+          type: integer
+          example: 220
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+      type: object
+    EnvironmentalReading:
+      required:
+        - vin_id
+        - temperature
+        - elevaton
+        - gps_location
+        - grade_incline
+        - timestamp
+      properties:
+        vin_id:
+          type: string
+          format: uuid
+          example: 5YJSA4H20FFP73029
+        temperature:
+          type: integer
+          example: 22
+        elevation:
+          type: integer
+          example: 100
+        gps_location:
+          type: string
+          example: '41.40338, 2.17403'
+        grade_incline:
+          type: integer
+          example: 15
+        timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+      type: object
+    Acceleration:
+      required:
+        - speed
+        - watt_hours_per_mile
+      properties:
+        speed:
+          type: integer
+          example: 45
+        watt_hours_per_mile:
+          type: integer
+          example: 171
+      type: object
