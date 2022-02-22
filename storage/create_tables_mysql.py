@@ -1,7 +1,7 @@
 import mysql.connector
 
 
-db_conn = mysql.connector.connect(host="kafka-ijaz.eastus.cloudapp.azure.com", user="user", password="", database="events")
+db_conn = mysql.connector.connect(host="kafka-ijaz.eastus.cloudapp.azure.com", user="user", password="password", database="events")
 
 db_cursor = db_conn.cursor()
 
