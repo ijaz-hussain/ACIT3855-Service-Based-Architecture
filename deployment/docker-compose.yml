@@ -27,23 +27,27 @@ services:
       - "zookeeper"
   receiver:
     image: receiver
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
       - "kafka"
   storage:
     image: storage
+    restart: always
     ports:
       - "8090:8090"
     depends_on:
       - "kafka"
   processing:
     image: processing
+    restart: always
     network_mode: "host"
     depends_on:
       - "storage"
   audit_log:
     image: audit_log
+    restart: always
     ports:
       - "8110:8110"
     depends_on:
