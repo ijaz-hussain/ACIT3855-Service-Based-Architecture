@@ -104,7 +104,7 @@ components:
       required:
         - vin_id
         - temperature
-        - elevation
+        - elevaton
         - gps_location
         - grade_incline
         - timestamp

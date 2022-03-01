@@ -15,6 +15,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from stats import Stats
+from flask_cors import CORS, cross_origin
 
 
 with open('app_conf.yml', 'r') as f:
@@ -157,3 +158,5 @@ if __name__ == "__main__":
     # run our standalone gevent server
     init_scheduler()
     app.run(port=8100, use_reloader=False)
+    CORS(app.app)
+    app.app.config['CORS_HEADERS'] = 'Content-Type'
