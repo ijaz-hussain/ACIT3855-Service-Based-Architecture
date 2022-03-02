@@ -39,8 +39,8 @@ export default function AppStats() {
 							<th>Environmental Reading</th>
 						</tr>
 						<tr>
-							<td># AR: {stats['num_acceleration_readings']}</td>
-							<td># ER: {stats['num_environmental_readings']}</td>
+							<td># of Acceleration Readings: {stats['num_acceleration_readings']}</td>
+							<td># of Environmental Readings: {stats['num_environmental_readings']}</td>
 						</tr>
 						<tr>
 							<td colspan="2">Max Acceleration Speed Reading: {stats['max_acceleration_speed_reading']}</td>
