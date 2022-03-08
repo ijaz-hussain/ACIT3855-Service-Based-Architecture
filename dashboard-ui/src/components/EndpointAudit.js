@@ -6,6 +6,7 @@ export default function EndpointAudit(props) {
     const [log, setLog] = useState(null);
     const [error, setError] = useState(null)
 	const rand_val = Math.floor(Math.random() * 100); // Get a random event from the event store
+    const [index, setIndex] = useState(null);
 
     const getAudit = () => {
         fetch(`http://kafka-ijaz.eastus.cloudapp.azure.com:8110/${props.endpoint}?index=${rand_val}`)
@@ -30,7 +31,6 @@ export default function EndpointAudit(props) {
         return(<div>Loading...</div>)
     } else if (isLoaded === true){
         
-        const [index, setIndex] = useState(null);
         setIndex(rand_val); 
 
         return ( 
