@@ -7,6 +7,15 @@ export default function EndpointAudit(props) {
     const [error, setError] = useState(null)
 	const rand_val = Math.floor(Math.random() * 100); // Get a random event from the event store
 
+    const [index, setIndex] = useState(null);
+    setIndex(rand_val); 
+    return ( 
+        <div> 
+            <h3>{props.endpoint}-{index}</h3> 
+            {JSON.stringify(log)} 
+        </div> 
+    )
+
     const getAudit = () => {
         fetch(`http://kafka-ijaz.eastus.cloudapp.azure.com:8110/${props.endpoint}?index=${rand_val}`)
             .then(res => res.json())
