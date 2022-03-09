@@ -10,6 +10,7 @@ import random
 import logging.config
 import datetime
 import json
+import time
 from pykafka import KafkaClient
 from connexion import NoContent
 
@@ -21,7 +22,9 @@ with open('app_conf.yml', 'r') as f:
     kafka_server = app_config["events"]["hostname"]
     kafka_port = app_config["events"]["port"]
     tp = app_config["events"]["topic"]
-
+    hostname1 = "%s:%d" % (app_config["events"]["hostname"], app_config["events"]["port"])
+    maximum_retries = app_config["maximum_retries"]
+    sleep_time = app_config["sleep_time"]
 
 
 with open('log_conf.yml', 'r') as f:
@@ -31,6 +34,22 @@ with open('log_conf.yml', 'r') as f:
 
 # Create a custom logger
 logger = logging.getLogger('basicLogger')
+
+
+current_retries = 0
+
+while current_retries < maximum_retries:
+    logger.info("Attempting to connect to Kafka. Current retry count: {}".format(current_retries))
+    try:
+        client = KafkaClient(hosts=hostname1)
+        topic = client.topics[str.encode(app_config["events"]["topic"])]
+        producer = topic.get_sync_producer()
+        logger.info("Successfully connected to Kafka.")
+        break
+    except:
+        logger.error("Connection failed.")
+        time.sleep(sleep_time)
+        current_retries += 1
 
 
 # Your functions here
