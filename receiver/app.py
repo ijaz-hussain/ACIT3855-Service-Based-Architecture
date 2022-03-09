@@ -44,6 +44,7 @@ while current_retries < maximum_retries:
         client = KafkaClient(hosts=hostname1)
         topic = client.topics[str.encode(app_config["events"]["topic"])]
         producer = topic.get_sync_producer()
+
         logger.info("Successfully connected to Kafka.")
         break
     except:
@@ -61,10 +62,6 @@ def acceleration_reading(body):
     event_request = "Received event {} reading with a trace id of {}".format(event_name, trace_id)
     logger.info(event_request)
     body['trace_id'] = trace_id
-    #response = requests.post(acceleration_url, json=body, headers=headers)
-    client = KafkaClient(hosts='{}:{}'.format(kafka_server, kafka_port))
-    topic = client.topics[str.encode(tp)]
-    producer = topic.get_sync_producer()
     msg = {"type": "acceleration",
            "datetime": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
            "payload": body}
@@ -84,10 +81,6 @@ def environmental_reading(body):
     event_request = "Received event {} reading with a trace id of {}".format(event_name, trace_id)
     logger.info(event_request)
     body['trace_id'] = trace_id
-    #response = requests.post(environmental_url, json=body, headers=headers)
-    client = KafkaClient(hosts='{}:{}'.format(kafka_server, kafka_port))
-    topic = client.topics[str.encode(tp)]
-    producer = topic.get_sync_producer()
     msg = {"type": "environmental",
            "datetime": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
            "payload": body}
