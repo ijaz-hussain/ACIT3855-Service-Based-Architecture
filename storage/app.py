@@ -1,6 +1,7 @@
 # Ijaz Hussain - A00963610 4C
 # ACIT 3855 - Lab 4
-from flask_cors import CORS
+
+import CORS as CORS
 import connexion
 import mysql.connector
 import pymysql
