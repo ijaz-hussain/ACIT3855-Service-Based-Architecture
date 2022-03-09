@@ -1,7 +1,6 @@
 # Ijaz Hussain - A00963610 4C
 # ACIT 3855 - Lab 4
 
-from flask_cors import CORS, cross_origin
 import connexion
 import mysql.connector
 import pymysql
@@ -180,5 +179,3 @@ if __name__ == "__main__":
     t1.setDaemon(True)
     t1.start()
     app.run(port=8090)
-    CORS(app.app)
-    app.app.config['CORS_HEADERS'] = 'Content-Type'
