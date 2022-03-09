@@ -84,7 +84,8 @@ components:
         - vin_id
         - acceleration_reading
         - estimated_range
-        - timestamp
+        - start_timestamp
+        - end_timestamp
         - trace_id
       properties:
         vin_id:
@@ -96,7 +97,11 @@ components:
         estimated_range:
           type: integer
           example: 220
-        timestamp:
+        start_timestamp:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        end_timestamp:
           type: string
           format: date-time
           example: '2016-08-29T09:12:33.001Z'

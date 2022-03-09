@@ -1,7 +1,6 @@
 # Ijaz Hussain - A00963610 4C
 # ACIT 3855 - Lab 4
-
-
+from flask_cors import CORS
 import connexion
 import mysql.connector
 import pymysql
@@ -19,6 +18,7 @@ from sqlalchemy.orm import sessionmaker
 from base import Base
 from acceleration_reading import AccelerationReading
 from environmental_reading import EnvironmentalReading
+from sqlalchemy import and_
 
 
 with open('app_conf.yml', 'r') as f:
@@ -88,14 +88,16 @@ def environmental_reading(body):
     logger.debug(received_event)
 
 
-def get_acceleration_readings(timestamp):
+def get_acceleration_readings(start_timestamp, end_timestamp):
     """ Gets new acceleration readings after the timestamp """
 
     session = DB_SESSION()
 
-    timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
+    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%SZ")
 
-    readings = session.query(AccelerationReading).filter(AccelerationReading.date_created >= timestamp_datetime)
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+
+    readings = session.query(AccelerationReading).filter(and_(AccelerationReading.date_created >= start_timestamp_datetime, AccelerationReading.date_created < end_timestamp_datetime))
 
     results_list = []
 
@@ -105,19 +107,21 @@ def get_acceleration_readings(timestamp):
     session.close()
 
     logger.info("Query for acceleration readings after %s returns %d results" %
-                (timestamp, len(results_list)))
+                (start_timestamp, len(results_list)))
 
     return results_list, 200
 
 
-def get_environmental_readings(timestamp):
+def get_environmental_readings(start_timestamp, end_timestamp):
     """ Gets new environmental readings after the timestamp """
 
     session = DB_SESSION()
 
-    timestamp_datetime = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
+    start_timestamp_datetime = datetime.datetime.strptime(start_timestamp, "%Y-%m-%dT%H:%M:%SZ")
 
-    readings = session.query(EnvironmentalReading).filter(EnvironmentalReading.date_created >= timestamp_datetime)
+    end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+
+    readings = session.query(EnvironmentalReading).filter(and_(EnvironmentalReading.date_created >= start_timestamp_datetime, EnvironmentalReading.date_created < end_timestamp_datetime))
 
     results_list = []
 
@@ -127,7 +131,7 @@ def get_environmental_readings(timestamp):
     session.close()
 
     logger.info("Query for environmental readings after %s returns %d results" %
-                (timestamp, len(results_list)))
+                (start_timestamp, len(results_list)))
 
     return results_list, 200
 
@@ -175,3 +179,5 @@ if __name__ == "__main__":
     t1.setDaemon(True)
     t1.start()
     app.run(port=8090)
+    CORS(app.app)
+    app.app.config['CORS_HEADERS'] = 'Content-Type'

@@ -54,9 +54,12 @@ def populate_stats():
         stats = results.to_dict()
 
     previous_datetime = stats['last_updated']
+    current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    get_acceleration = requests.get(app_config['eventstore1']['url'] + '?timestamp=' + previous_datetime)
-    get_environmental = requests.get(app_config['eventstore2']['url'] + '?timestamp=' + previous_datetime)
+    #get_acceleration = requests.get(app_config['eventstore1']['url'] + '?timestamp=' + previous_datetime)
+    #get_environmental = requests.get(app_config['eventstore2']['url'] + '?timestamp=' + previous_datetime)
+    get_acceleration = requests.get(app_config["eventstore1"]["url"] + "/acceleration?start_timestamp=" + previous_datetime + "&end_timestamp=" + current_timestamp)
+    get_environmental = requests.get(app_config["eventstore2"]["url"] + "/environmental?start_timestamp=" + previous_datetime + "&end_timestamp=" + current_timestamp)
 
     if get_acceleration.status_code != 200:
         logger.error("Received a status code of {}".format(get_acceleration.status_code))
@@ -105,7 +108,7 @@ def populate_stats():
                   stats["max_acceleration_watt_hours_reading"],
                   stats["num_environmental_readings"],
                   stats["max_temp_reading"],
-                  datetime.datetime.now())
+                  current_timestamp)
 
     session.add(stats_new)
 
