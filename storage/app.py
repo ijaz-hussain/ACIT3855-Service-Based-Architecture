@@ -9,6 +9,7 @@ import logging
 import datetime
 import logging.config
 import json
+import time
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread
@@ -20,7 +21,6 @@ from acceleration_reading import AccelerationReading
 from environmental_reading import EnvironmentalReading
 from sqlalchemy import and_
 
-
 with open('app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
     user = app_config["datastore"]["user"]
@@ -29,15 +29,12 @@ with open('app_conf.yml', 'r') as f:
     port = app_config["datastore"]["port"]
     db = app_config["datastore"]["db"]
 
-
 with open('log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
-
 # Create a custom logger
 logger = logging.getLogger('basicLogger')
-
 
 DB_ENGINE = create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(user, password, hostname, port, db))
 
@@ -45,6 +42,7 @@ Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 logger.info("Connecting to DB. Hostname:{}, Port:{}".format(hostname, port))
+
 
 def acceleration_reading(body):
     """ Receives an acceleration reading """
@@ -97,7 +95,9 @@ def get_acceleration_readings(start_timestamp, end_timestamp):
 
     end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
 
-    readings = session.query(AccelerationReading).filter(and_(AccelerationReading.date_created >= start_timestamp_datetime, AccelerationReading.date_created < end_timestamp_datetime))
+    readings = session.query(AccelerationReading).filter(
+        and_(AccelerationReading.date_created >= start_timestamp_datetime,
+             AccelerationReading.date_created < end_timestamp_datetime))
 
     results_list = []
 
@@ -121,7 +121,9 @@ def get_environmental_readings(start_timestamp, end_timestamp):
 
     end_timestamp_datetime = datetime.datetime.strptime(end_timestamp, "%Y-%m-%dT%H:%M:%SZ")
 
-    readings = session.query(EnvironmentalReading).filter(and_(EnvironmentalReading.date_created >= start_timestamp_datetime, EnvironmentalReading.date_created < end_timestamp_datetime))
+    readings = session.query(EnvironmentalReading).filter(
+        and_(EnvironmentalReading.date_created >= start_timestamp_datetime,
+             EnvironmentalReading.date_created < end_timestamp_datetime))
 
     results_list = []
 
@@ -139,8 +141,21 @@ def get_environmental_readings(start_timestamp, end_timestamp):
 def process_messages():
     """ Process event messages """
     hostname1 = "%s:%d" % (app_config["events"]["hostname"], app_config["events"]["port"])
-    client = KafkaClient(hosts=hostname1)
-    topic = client.topics[str.encode(app_config["events"]["topic"])]
+    maximum_retries = app_config["maximum_retries"]
+    sleep_time = app_config["sleep_time"]
+    current_retries = 0
+
+    while current_retries < maximum_retries:
+        logger.info("Attempting to connect to Kafka. Current retry count: {}".format(current_retries))
+        try:
+            client = KafkaClient(hosts=hostname1)
+            topic = client.topics[str.encode(app_config["events"]["topic"])]
+            logger.info("Successfully connected to Kafka.")
+            break
+        except:
+            logger.error("Connection failed.")
+            time.sleep(sleep_time)
+            current_retries += 1
 
     # Create a consumer on a consumer group, that only reads new messages
     # (uncommitted messages) when the service re-starts (i.e., it doesn't
@@ -158,11 +173,11 @@ def process_messages():
         payload = msg["payload"]
 
         if msg["type"] == "acceleration":  # Change this to your event type
-        # Store the event1 (i.e., the payload) to the DB
+            # Store the event1 (i.e., the payload) to the DB
             logger.info("Storing acceleration event")
             acceleration_reading(payload)
         elif msg["type"] == "environmental":  # Change this to your event type
-        # Store the event2 (i.e., the payload) to the DB
+            # Store the event2 (i.e., the payload) to the DB
             logger.info("Storing environmental event")
             environmental_reading(payload)
 
@@ -172,7 +187,6 @@ def process_messages():
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
-
 
 if __name__ == "__main__":
     t1 = Thread(target=process_messages)
