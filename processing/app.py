@@ -58,8 +58,8 @@ def populate_stats():
 
     #get_acceleration = requests.get(app_config['eventstore1']['url'] + '?timestamp=' + previous_datetime)
     #get_environmental = requests.get(app_config['eventstore2']['url'] + '?timestamp=' + previous_datetime)
-    get_acceleration = requests.get(app_config["eventstore1"]["url"] + "/acceleration?start_timestamp=" + previous_datetime + "&end_timestamp=" + current_timestamp)
-    get_environmental = requests.get(app_config["eventstore2"]["url"] + "/environmental?start_timestamp=" + previous_datetime + "&end_timestamp=" + current_timestamp)
+    get_acceleration = requests.get(app_config["eventstore1"]["url"] + "?start_timestamp=" + previous_datetime + "&end_timestamp=" + current_timestamp)
+    get_environmental = requests.get(app_config["eventstore2"]["url"] + "?start_timestamp=" + previous_datetime + "&end_timestamp=" + current_timestamp)
 
     if get_acceleration.status_code != 200:
         logger.error("Received a status code of {}".format(get_acceleration.status_code))
@@ -162,4 +162,3 @@ if __name__ == "__main__":
     # run our standalone gevent server
     init_scheduler()
     app.run(port=8100, use_reloader=False)
-
