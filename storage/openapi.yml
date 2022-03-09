@@ -17,7 +17,14 @@ paths:
       operationId: app.get_acceleration_readings
       description: Gets acceleration readings added after a timestamp
       parameters:
-        - name: timestamp
+        - name: start_timestamp
+          in: query
+          description: Limits the number of items on a page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:12:33.001Z
+        - name: end_timestamp
           in: query
           description: Limits the number of items on a page
           schema:
@@ -84,8 +91,7 @@ components:
         - vin_id
         - acceleration_reading
         - estimated_range
-        - start_timestamp
-        - end_timestamp
+        - timestamp
         - trace_id
       properties:
         vin_id:
@@ -97,11 +103,7 @@ components:
         estimated_range:
           type: integer
           example: 220
-        start_timestamp:
-          type: string
-          format: date-time
-          example: '2016-08-29T09:12:33.001Z'
-        end_timestamp:
+        timestamp:
           type: string
           format: date-time
           example: '2016-08-29T09:12:33.001Z'
