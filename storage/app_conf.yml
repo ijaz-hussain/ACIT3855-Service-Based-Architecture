@@ -9,5 +9,5 @@ events:
   hostname: kafka-ijaz.eastus.cloudapp.azure.com
   port: 9092
   topic: events
-maximum_retries: 10
-sleep_time: 10
+maximum_retries: 25
+sleep_time: 60
