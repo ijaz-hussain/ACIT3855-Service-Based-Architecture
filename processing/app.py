@@ -45,7 +45,7 @@ logger.info("Log Conf File: %s" % log_conf_file)
 
 
 def create_database():
-    conn = sqlite3.connect("{}".format(database))
+    conn = sqlite3.connect("/data/data.sqlite")
 
     c = conn.cursor()
     c.execute(''' 
