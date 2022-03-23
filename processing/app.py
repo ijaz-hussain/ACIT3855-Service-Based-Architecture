@@ -17,6 +17,7 @@ from base import Base
 from stats import Stats
 from flask_cors import CORS, cross_origin
 import os
+import sqlite3
 
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
@@ -30,6 +31,7 @@ else:
 
 with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
+    database = app_config["datastore"]["filename"]
 
 # External Logging Configuration
 with open(log_conf_file, 'r') as f:
@@ -40,6 +42,30 @@ logger = logging.getLogger('basicLogger')
 
 logger.info("App Conf File: %s" % app_conf_file)
 logger.info("Log Conf File: %s" % log_conf_file)
+
+
+def create_database():
+    conn = sqlite3.connect(database)
+
+    c = conn.cursor()
+    c.execute(''' 
+              CREATE TABLE stats 
+              (id INTEGER PRIMARY KEY ASC,  
+               num_acceleration_readings INTEGER NOT NULL, 
+               max_acceleration_speed_readings INTEGER, 
+               max_acceleration_watt_hours_reading INTEGER, 
+               num_environmental_readings INTEGER NOT NULL, 
+               max_temp_reading INTEGER, 
+               last_updated VARCHAR(100) NOT NULL) 
+              ''')
+
+    conn.commit()
+    conn.close()
+
+
+if not database:
+    create_database()
+
 
 DB_ENGINE = create_engine("sqlite:///%s" % app_config["datastore"]["filename"])
 Base.metadata.bind = DB_ENGINE
