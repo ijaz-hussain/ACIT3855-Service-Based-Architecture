@@ -45,7 +45,7 @@ logger.info("Log Conf File: %s" % log_conf_file)
 
 
 def create_database():
-    conn = sqlite3.connect("/data/data.sqlite")
+    conn = sqlite3.connect(database)
 
     c = conn.cursor()
     c.execute(''' 
@@ -67,7 +67,7 @@ if not os.path.exists(database):
     create_database()
 
 
-DB_ENGINE = create_engine("sqlite:///%s" % app_config["datastore"]["filename"])
+DB_ENGINE = create_engine("sqlite:///%s" % database)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
