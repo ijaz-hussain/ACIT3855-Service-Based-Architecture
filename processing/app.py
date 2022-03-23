@@ -63,7 +63,7 @@ def create_database():
     conn.close()
 
 
-if not database:
+if not os.path.exists(database):
     create_database()
 
 
