@@ -1,0 +1,2 @@
+@Library('ci_functions@main') _ 
+microservices_build('audit_log', 'audit_log', 'audit_logapp')
