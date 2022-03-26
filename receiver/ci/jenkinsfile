@@ -1,2 +1,2 @@
-@Library('microservices_functions@master') _ 
-python_build('receiver', 'receiverapp')
+@Library('ci_functions@main') _ 
+microservices_build('receiver', 'receiverapp')
