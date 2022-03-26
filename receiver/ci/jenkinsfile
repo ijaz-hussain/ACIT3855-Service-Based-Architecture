@@ -1,2 +1,26 @@
-@Library('ci_functions@main') _ 
-microservices_build('receiver', 'receiverapp')
+def call('receiver') {
+    pipeline { 
+    agent any  
+    stages { 
+        stage('Python Lint') {
+            steps {
+                    sh 'pylint-fail-under --fail_under 5.0 receiver/*.py'       
+            }  
+        }
+        stage('Package') { 
+            when { 
+                expression { env.GIT_BRANCH == 'origin/main' } 
+            } 
+            steps { 
+                withCredentials([string(credentialsId: 'ijazhussain', variable: 'TOKEN')]) { 
+                    sh "docker login -u 'ijazhussain' -p '$TOKEN' docker.io" 
+                    sh "docker build -t ${dockerRepoName}:latest --tag ijazhussain/${dockerRepoName}:${imageName} ." 
+                    sh "docker push ijazhussain/${dockerRepoName}:${imageName}" 
+                } 
+            } 
+        }
+    }
+}
+}
+
+python_build('receiver', 'receiverapp')
