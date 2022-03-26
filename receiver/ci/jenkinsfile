@@ -1,4 +1,4 @@
-def call() {
+def call(serviceName) {
     pipeline { 
     agent any  
     stages { 
@@ -23,4 +23,4 @@ def call() {
 }
 }
 
-python_build('receiver', 'receiverapp')
+python_build('receiver')
