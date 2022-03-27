@@ -1,7 +1,7 @@
 node("AzureVM") {
     timeout(unit: 'SECONDS', time: 5) {
         stage("Deploy"){
-            sh "ls"
+            sh "cd /home/azureuser/ACIT3855-Service-Based-Architecture"
         }
     }
 }
