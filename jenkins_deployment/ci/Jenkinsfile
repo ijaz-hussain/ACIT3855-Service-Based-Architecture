@@ -1,7 +1,5 @@
 node("AzureVM") {
-    timeout(unit: 'SECONDS', time: 5) {
-        stage("Deploy"){
-            sh "docker-compose up -d"
-        }
+    stage("Deploy"){
+        sh "docker-compose up -d"
     }
 }
