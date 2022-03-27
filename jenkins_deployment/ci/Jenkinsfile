@@ -1,2 +1,7 @@
-@Library('ci_functions@main') _ 
-microservices_build('receiver', 'receiver', 'receiverapp')
+node("AzureVM") {
+    timeout(unit: 'SECONDS', time: 5) {
+        stage("Deploy"){
+            sh "ls"
+        }
+    }
+}
