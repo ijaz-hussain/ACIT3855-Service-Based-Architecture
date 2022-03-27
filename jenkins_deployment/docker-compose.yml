@@ -31,7 +31,7 @@ services:
     depends_on: 
       - "zookeeper"
   receiver:
-    image: receiver
+    image: ijazhussain/receiver:receiverapp
     restart: always
     ports:
       - "8080:8080"
@@ -43,7 +43,7 @@ services:
     depends_on:
       - "kafka"
   storage:
-    image: storage
+    image: ijazhussain/storage:storageapp
     restart: always
     ports:
       - "8090:8090"
@@ -55,7 +55,7 @@ services:
     depends_on:
       - "kafka"
   processing:
-    image: processing
+    image: ijazhussain/processing:processingapp
     restart: always
     network_mode: "host"
     environment:
@@ -67,7 +67,7 @@ services:
     depends_on:
       - "storage"
   audit_log:
-    image: audit_log
+    image: ijazhussain/audit_log:audit_logapp
     restart: always
     ports:
       - "8110:8110"
@@ -78,14 +78,6 @@ services:
       - /home/azureuser/logs:/logs
     depends_on:
       - "kafka"
-  dashboard: 
-    image: dashboard
-    restart: always
-    ports: 
-      - "3000:3000" 
-    depends_on: 
-      - "processing" 
-      - "audit_log"
   db: 
     image: mysql:5.7 
     restart: always 
