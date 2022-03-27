@@ -1,7 +1,8 @@
 node("AzureVM") {
     timeout(unit: 'SECONDS', time: 5) {
         stage("Deploy"){
-            sh "cd /home/azureuser/ACIT3855-Service-Based-Architecture"
+            sh "cd /home/azureuser/ACIT3855-Service-Based-Architecture/jenkins_deployment"
+            sh "docker-compose up -d"
         }
     }
 }
