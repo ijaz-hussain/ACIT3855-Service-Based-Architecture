@@ -1,5 +1,6 @@
 node("AzureVM") {
     stage("Deploy"){
+        sh "docker-compose pull"
         sh "docker-compose up -d"
     }
 }
