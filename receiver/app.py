@@ -45,6 +45,7 @@ logger = logging.getLogger('basicLogger')
 
 logger.info("App Conf File: %s" % app_conf_file)
 logger.info("Log Conf File: %s" % log_conf_file)
+logger.message("DEMONSTRATION")
 
 current_retries = 0
 
