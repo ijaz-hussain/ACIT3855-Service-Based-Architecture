@@ -1,6 +1,9 @@
 node("AzureVM") {
     stage("Deploy"){
-        sh "docker-compose pull --ignore-pull-failures"
+        sh "docker-compose pull storage"
+        sh "docker-compose pull receiver"
+        sh "docker-compose pull processing"
+        sh "docker-compose pull audit_log"
         sh "docker-compose up -d"
     }
 }
