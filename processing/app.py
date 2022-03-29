@@ -75,7 +75,6 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 def populate_stats():
     """ Periodically update stats """
     logger.info("Start Periodic Processing")
-    logger.info("DEMO")
 
     session = DB_SESSION()
     results = session.query(Stats).order_by(Stats.last_updated.desc()).first()
