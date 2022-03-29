@@ -1,15 +1,11 @@
-"""
-imports
-"""
+import connexion
+import yaml
 import logging
 import logging.config
 import json
-import os
-import connexion
-import yaml
 from pykafka import KafkaClient
 from flask_cors import CORS, cross_origin
-
+import os
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")
@@ -94,7 +90,7 @@ def get_environmental_reading(index):
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
+app.add_api("openapi.yml", base_path="/audit_log", strict_validation=True, validate_responses=True)
 CORS(app.app)
 app.app.config['CORS_HEADERS'] = 'Content-Type'
 

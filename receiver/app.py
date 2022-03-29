@@ -2,18 +2,18 @@
 # ACIT 3855 - Lab 4
 
 
+import requests
+import connexion
+import yaml
 import logging
 import random
 import logging.config
 import datetime
 import json
 import time
-import os
-import requests
-import connexion
-import yaml
 from pykafka import KafkaClient
 from connexion import NoContent
+import os
 
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
@@ -103,7 +103,7 @@ def environmental_reading(body):
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
+app.add_api("openapi.yml", base_path="/receiver", strict_validation=True, validate_responses=True)
 
 
 if __name__ == "__main__":
