@@ -50,12 +50,9 @@ export default function HealthStats() {
                             <td>Audit:</td>
                             <td> {health['audit']}</td>
                         </tr>
-                        <tr>
-                            <td>Last Update:</td>
-                            <td>{health['last_update']}</td>
-						</tr>
 					</tbody>
                 </table>
+                <h3>Last Updated: {health['last_update']}</h3>
             </div>
         )
     }
