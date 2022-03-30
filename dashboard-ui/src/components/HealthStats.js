@@ -3,7 +3,7 @@ import '../App.css';
 
 export default function HealthStats() {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [stats, setStats] = useState({});
+    const [health, setStats] = useState({});
     const [error, setError] = useState(null)
 
 	const getStats = () => {
