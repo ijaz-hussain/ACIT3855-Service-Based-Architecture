@@ -5,7 +5,6 @@ import requests
 import connexion
 import yaml
 import logging
-import random
 import logging.config
 import datetime
 import json
@@ -152,7 +151,7 @@ def get_health():
     logger.info("Request has started")
 
     session = DB_SESSION()
-    results = session.query(Health).order_by(Health.last_updated.desc()).first()
+    results = session.query(Health).order_by(Health.last_update.desc()).first()
     session.close()
 
     if not results:
