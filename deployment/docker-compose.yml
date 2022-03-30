@@ -97,6 +97,19 @@ services:
     depends_on: 
       - "processing" 
       - "audit_log"
+  health:
+    image: health
+    restart: always
+    ports:
+      - "8120"
+    networks:
+      - "api.network"
+    environment:
+      - TARGET_ENV=test
+    volumes:
+      - /home/azureuser/config/health:/config
+      - /home/azureuser/logs:/logs
+      - health-db:/data
   db: 
     image: mysql:5.7 
     restart: always 
@@ -138,5 +151,6 @@ services:
 volumes: 
   my-db:
   processing-db:
+  health-db:
 networks:
   api.network:
