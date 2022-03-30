@@ -35,7 +35,8 @@ export default function HealthStats() {
                 <table className={"StatsTable"}>
 					<tbody>
                         <tr>
-                            <th>Backend Services</th>
+                            <th>Service</th>
+                            <th>Status</th>
                         </tr>
 						<tr>
 							<td>Receiver:</td>
