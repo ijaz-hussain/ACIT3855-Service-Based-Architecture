@@ -32,13 +32,21 @@ export default function HealthStats() {
         return(
             <div>
                 <h1>Health Stats</h1>
-                <table className={"StatsTable"}>
+                <table className={"HealthTable"}>
 					<tbody>
 						<tr>
 							<td>Receiver: {health['receiver']}</td>
+                        </tr>
+                        <tr>
 							<td>Storage: {health['storage']}</td>
+                        </tr>
+                        <tr>
                             <td>Processing: {health['processing']}</td>
+                        </tr>
+                        <tr>
                             <td>Audit: {health['audit']}</td>
+                        </tr>
+                        <tr>
                             <td>Last Update: {health['last_update']}</td>
 						</tr>
 					</tbody>
