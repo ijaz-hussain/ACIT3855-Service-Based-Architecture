@@ -35,19 +35,24 @@ export default function HealthStats() {
                 <table className={"HealthTable"}>
 					<tbody>
 						<tr>
-							<td>Receiver: {health['receiver']}</td>
+							<td>Receiver:</td>
+                            <td>{health['receiver']}</td>
                         </tr>
                         <tr>
-							<td>Storage: {health['storage']}</td>
+							<td>Storage:</td>
+                            <td> {health['storage']}</td>
                         </tr>
                         <tr>
-                            <td>Processing: {health['processing']}</td>
+                            <td>Processing:</td>
+                            <td>{health['processing']}</td>
                         </tr>
                         <tr>
-                            <td>Audit: {health['audit']}</td>
+                            <td>Audit:</td>
+                            <td> {health['audit']}</td>
                         </tr>
                         <tr>
-                            <td>Last Update: {health['last_update']}</td>
+                            <td>Last Update:</td>
+                            <td>{health['last_update']}</td>
 						</tr>
 					</tbody>
                 </table>
