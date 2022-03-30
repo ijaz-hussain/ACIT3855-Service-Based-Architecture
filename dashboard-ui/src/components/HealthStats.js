@@ -34,6 +34,9 @@ export default function HealthStats() {
                 <h1>Health Stats</h1>
                 <table className={"StatsTable"}>
 					<tbody>
+                        <tr>
+                            <th>Backend Services</th>
+                        </tr>
 						<tr>
 							<td>Receiver:</td>
                             <td>{health['receiver']}</td>
@@ -47,7 +50,7 @@ export default function HealthStats() {
                             <td>{health['processing']}</td>
                         </tr>
                         <tr>
-                            <td>Audit:</td>
+                            <td>Audit Log:</td>
                             <td> {health['audit']}</td>
                         </tr>
 					</tbody>
