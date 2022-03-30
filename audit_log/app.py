@@ -4,6 +4,7 @@ import logging
 import logging.config
 import json
 from pykafka import KafkaClient
+from connexion import NoContent
 from flask_cors import CORS, cross_origin
 import os
 
@@ -91,7 +92,7 @@ def get_environmental_reading(index):
 
 
 def get_health():
-    return 200
+    return NoContent, 200
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
