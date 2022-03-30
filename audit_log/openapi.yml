@@ -77,6 +77,18 @@ paths:
                     type: string
         '404':
           description: Not Found
+
+  /health:
+    get:
+      tags:
+        - health
+      summary: checks health of backend services
+      operationId: app.get_health
+      description: Gets health of backend services
+      responses:
+        '200':
+          description: Successfully returned health check of backend services
+
 components:
   schemas:
     AccelerationReading:

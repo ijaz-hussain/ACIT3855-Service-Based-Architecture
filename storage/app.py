@@ -199,8 +199,13 @@ def process_messages():
         consumer.commit_offsets()
 
 
+def get_health():
+    return NoContent, 200
+
+
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yml", base_path="/storage", strict_validation=True, validate_responses=True)
+
 
 if __name__ == "__main__":
     t1 = Thread(target=process_messages)
