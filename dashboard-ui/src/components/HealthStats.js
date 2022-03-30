@@ -20,7 +20,7 @@ export default function HealthStats() {
             })
     }
     useEffect(() => {
-		const interval = setInterval(() => getStats(), 20000); // Update every 20 seconds
+		const interval = setInterval(() => getStats(), 5000); // Update every 5 seconds
 		return() => clearInterval(interval);
     }, [getStats]);
 
