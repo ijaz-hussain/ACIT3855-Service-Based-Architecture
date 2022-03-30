@@ -1,4 +1,4 @@
-APScheduler==3.8.1
+APScheduler==3.9.1
 connexion==2.7.0
 Flask_Cors==3.0.10
 pykafka==2.4.0
