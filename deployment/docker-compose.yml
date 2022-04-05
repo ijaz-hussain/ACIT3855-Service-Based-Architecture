@@ -110,6 +110,8 @@ services:
       - /home/azureuser/config/health:/config
       - /home/azureuser/logs:/logs
       - health-db:/data
+    depends_on:
+      - "kafka"
   db: 
     image: mysql:5.7 
     restart: always 
